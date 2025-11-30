@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
 
-const RAILWAY_API = 'https://tcc-production-b4f7.up.railway.app/PHP';
+const RAILWAY_API = 'https://dieta-se-production.up.railway.app/';
 const LOCAL_API = 'http://localhost/DietaseAPP/PHP';
 
 let API_BASE = RAILWAY_API;
@@ -11,7 +11,7 @@ async function detectApiBase(): Promise<string> {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 3000);
 
-    await fetch(`https://tcc-production-b4f7.up.railway.app/test_api.php`, {
+    await fetch(`https://dieta-se-production.up.railway.app/test_api.php`, {
       signal: controller.signal,
       method: 'GET',
     });
