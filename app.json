@@ -1,0 +1,69 @@
+{
+  "expo": {
+    "name": "TCC",
+    "slug": "TCC",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "tcc",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSMotionUsageDescription": "Este aplicativo precisa acessar seus dados de movimento para contar passos e calcular calorias gastas.",
+        "UIViewControllerBasedStatusBarAppearance": false,
+        "UIStatusBarStyle": "UIStatusBarStyleLightContent"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "com.adilsonkina.TCC",
+      "permissions": [
+        "android.permission.ACTIVITY_RECOGNITION"
+      ],
+      "statusBar": {
+        "backgroundColor": "#4CAF50",
+        "barStyle": "light-content",
+        "translucent": false
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
+        }
+      ],
+      [
+        "expo-sensors",
+        {
+          "motionPermission": "Permitir que o Dieta-se acesse seus dados de atividade física para contar seus passos diários."
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "18d40f16-a75e-4174-a053-2515e42e98d2"
+      }
+    },
+    "owner": "possas"
+  }
+}

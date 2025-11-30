@@ -1,0 +1,29 @@
+# Habilitar Rewrite Engine
+RewriteEngine On
+
+# Adicionar cabeçalhos CORS
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+</IfModule>
+
+# Tratar requisições OPTIONS (preflight)
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^(.*)$ $1 [R=200,L]
+
+# Não redirecionar arquivos e diretórios existentes
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Redirecionar tudo para index.php (se você tiver um router)
+# RewriteRule ^(.*)$ index.php [QSA,L]
+
+# Prevenir listagem de diretórios
+Options -Indexes
+
+# Bloquear acesso a arquivos sensíveis
+<FilesMatch "^(\.env|config\.php|composer\.json)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
