@@ -1,8 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
 
-const RAILWAY_API = 'https://dieta-se-production.up.railway.app';
-const LOCAL_API = 'http://localhost/DietaseAPP/PHP';
+const RAILWAY_API = 'https://dieta-se-production.up.railway.app'; 
+const LOCAL_API = 'http://localhost/DietaseAPP/PHP'; 
 
 let API_BASE = RAILWAY_API;
 
