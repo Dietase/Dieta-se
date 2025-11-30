@@ -1,26 +1,37 @@
 <?php
-// config.php para Railway
+// config.php para Railway - Funciona tanto na web quanto no CLI
 
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
-header('Content-Type: application/json');
+// Só configura headers se for requisição HTTP (não CLI)
+if (php_sapi_name() !== 'cli') {
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type, Authorization');
+    header('Content-Type: application/json');
 
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
+    if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+        http_response_code(200);
+        exit();
+    }
 }
 
 // Chave secreta JWT
 $jwtSecretKey = getenv('JWT_SECRET_KEY') ?: 'dietasecreta';
 
 function enviarErro($codigo, $mensagem) {
+    if (php_sapi_name() === 'cli') {
+        echo "ERRO ($codigo): $mensagem\n";
+        exit(1);
+    }
     http_response_code($codigo);
     echo json_encode(["erro" => $mensagem], JSON_UNESCAPED_UNICODE);
     exit();
 }
 
 function enviarSucesso($codigo, $dados) {
+    if (php_sapi_name() === 'cli') {
+        echo "SUCESSO: " . print_r($dados, true) . "\n";
+        exit(0);
+    }
     http_response_code($codigo);
     echo json_encode($dados, JSON_UNESCAPED_UNICODE);
     exit();
@@ -128,7 +139,7 @@ function verificarToken($jwtSecretKey) {
 }
 
 function permitirMetodos(array $metodos) {
-    if (!in_array($_SERVER["REQUEST_METHOD"], $metodos)) {
+    if (!isset($_SERVER["REQUEST_METHOD"]) || !in_array($_SERVER["REQUEST_METHOD"], $metodos)) {
         enviarErro(405, "Método não permitido.");
     }
 }
