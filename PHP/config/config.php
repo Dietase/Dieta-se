@@ -38,7 +38,7 @@ function enviarSucesso($codigo, $dados) {
 }
 
 // Se tiver a URL pública (para rodar localmente), usa ela
-$publicUrl = getenv('DATABASE_PUBLIC_URL');
+$publicUrl = getenv('MYSQL_PUBLIC_URL');
 
 if ($publicUrl && php_sapi_name() === 'cli') {
     // Parse da URL: mysql://user:pass@host:port/database
