@@ -37,11 +37,25 @@ function enviarSucesso($codigo, $dados) {
     exit();
 }
 
-$dbHost = getenv('MYSQLHOST') ?: 'localhost';
-$dbName = getenv('MYSQL_DATABASE') ?: 'dietase_db';
-$dbUser = getenv('MYSQLUSER') ?: 'root';
-$dbPass = getenv('MYSQLPASSWORD') ?: '';
-$dbPort = getenv('MYSQLPORT') ?: '3306';
+// Se tiver a URL pública (para rodar localmente), usa ela
+$publicUrl = getenv('DATABASE_PUBLIC_URL');
+
+if ($publicUrl && php_sapi_name() === 'cli') {
+    // Parse da URL: mysql://user:pass@host:port/database
+    $parts = parse_url($publicUrl);
+    $dbHost = $parts['host'];
+    $dbPort = $parts['port'];
+    $dbUser = $parts['user'];
+    $dbPass = $parts['pass'];
+    $dbName = ltrim($parts['path'], '/');
+} else {
+    // Usa variáveis internas do Railway (quando rodar no servidor)
+    $dbHost = getenv('MYSQLHOST') ?: 'localhost';
+    $dbName = getenv('MYSQL_DATABASE') ?: 'dietase_db';
+    $dbUser = getenv('MYSQLUSER') ?: 'root';
+    $dbPass = getenv('MYSQLPASSWORD') ?: '';
+    $dbPort = getenv('MYSQLPORT') ?: '3306';
+}
 
 // Conexão com o banco
 try {
